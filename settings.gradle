@@ -1,2 +1,6 @@
+include ':profile'
+include ':cart'
+include ':core'
+include ':home'
 include ':app'
 rootProject.name = "YuBooks"
