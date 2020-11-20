@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "413382458184",
+    "firebase_url": "https://yubooks-37f09.firebaseio.com",
+    "project_id": "yubooks-37f09",
+    "storage_bucket": "yubooks-37f09.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413382458184:android:bc01314a66c2ae6514117d",
+        "android_client_info": {
+          "package_name": "com.mobolajialabi.yubooks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "413382458184-5m0o87ilfqcopuvdce1i839dftv43bc2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobolajialabi.yubooks",
+            "certificate_hash": "7e97ef4288a5c0c8b982197ff7e7de85eecbe195"
+          }
+        },
+        {
+          "client_id": "413382458184-4rfccne809o2gmjb650tkv78lkhm4pbv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5giVNzTGbg6YnJml2YLZfvQyrFl-qSvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "413382458184-4rfccne809o2gmjb650tkv78lkhm4pbv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

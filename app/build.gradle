@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -42,5 +43,12 @@ dependencies {
 
     //fragment
     implementation deps.androidx.fragment
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    //google login
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
 }
