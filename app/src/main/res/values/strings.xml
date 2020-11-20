@@ -11,4 +11,5 @@
     <string name="sign_up">Sign up</string>
     <string name="example_email">example@gmail.com</string>
     <string name="password_hint">********</string>
+    <string name="hello">Hello</string>
 </resources>
