@@ -5,6 +5,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion versions.compileSdk
+    viewBinding.enabled = true
 
     defaultConfig {
         applicationId "com.mobolajialabi.yubooks"
@@ -36,6 +37,7 @@ dependencies {
     implementation deps.materialDesign
     //constraintLayout
     implementation deps.androidx.constraintlayout
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     // testing
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -46,9 +48,9 @@ dependencies {
 
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation deps.firebaseAnalytics
 
     //google login
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation deps.googleAuth
 
 }
