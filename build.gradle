@@ -52,7 +52,8 @@ ext.deps = [
         "materialDesign" : "com.google.android.material:material:${versions.materialDesign}",
         "googleAuth" : "com.google.android.gms:play-services-auth:${versions.googleAuth}",
         "firebaseAnalytics" : "com.google.firebase:firebase-analytics-ktx",
-        "firebase" : "com.google.firebase:firebase-bom:${versions.firebase}"
+        "firebase" : "com.google.firebase:firebase-bom:${versions.firebase}",
+        "firebaseAuth" : "com.google.firebase:firebase-auth-ktx"
 ]
 
 subprojects {
