@@ -12,6 +12,10 @@
     <string name="example_email">example@gmail.com</string>
     <string name="password_hint">********</string>
     <string name="hello">Hello</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_account">Create Account,</string>
+    <string name="sign_up_start">Sign up to get Started!</string>
+    <string name="an_arrow">An arrow</string>
+    <string name="username">Username</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_in">Sign in</string>
 </resources>
