@@ -19,4 +19,7 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">Sign in</string>
     <string name="register">Register</string>
+    <string name="lorem_ipsidum_etcetera">Lorem Ipsidum etcetera</string>
+    <string name="send">Send</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
 </resources>
