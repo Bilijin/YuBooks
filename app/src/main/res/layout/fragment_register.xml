@@ -82,8 +82,7 @@
             android:layout_height="match_parent"
             android:autofillHints="@string/example_email"
             android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            />
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/login"
+        app:layout_constraintBottom_toTopOf="@id/register"
         app:layout_constraintEnd_toEndOf="@+id/email_text"
         app:layout_constraintStart_toStartOf="@+id/email_text"
         app:layout_constraintTop_toBottomOf="@id/email_text"
@@ -113,12 +112,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login"
+        android:id="@+id/register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/orange"
-        android:text="@string/login"
+        android:text="@string/register"
         android:textAllCaps="false"
         android:textColor="#fff"
         app:layout_constraintBottom_toTopOf="@id/sign_up_google"
@@ -140,9 +139,9 @@
         app:icon="@drawable/ic_google_icon"
         app:iconGravity="textStart"
         app:iconTintMode="multiply"
-        app:layout_constraintEnd_toEndOf="@+id/login"
-        app:layout_constraintStart_toStartOf="@+id/login"
-        app:layout_constraintTop_toBottomOf="@id/login" />
+        app:layout_constraintEnd_toEndOf="@+id/register"
+        app:layout_constraintStart_toStartOf="@+id/register"
+        app:layout_constraintTop_toBottomOf="@id/register" />
 
     <TextView
         android:id="@+id/already"

@@ -47,8 +47,9 @@ dependencies {
     implementation deps.androidx.fragment
 
     //firebase
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation platform(deps.firebase)
     implementation deps.firebaseAnalytics
+    implementation deps.firebaseAuth
 
     //google login
     implementation deps.googleAuth
