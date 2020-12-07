@@ -49,6 +49,10 @@ class LoginFragment : Fragment() {
         binding.signUp.setOnClickListener{
             view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
+
+        binding.forgotPassword.setOnClickListener {
+            view.findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+        }
         // Inflate the layout for this fragment
         return view
     }

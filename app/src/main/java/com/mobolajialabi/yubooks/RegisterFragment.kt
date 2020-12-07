@@ -91,9 +91,8 @@ class RegisterFragment : Fragment() {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(context, "Authentication failed.",
+                        Toast.makeText(context, "Authentication failed. ${task.exception}",
                             Toast.LENGTH_SHORT).show()
-//                            updateUI(null)
                     }
                 }
             }

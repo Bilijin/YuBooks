@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.mobolajialabi.yubooks.databinding.FragmentForgotPasswordBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,6 +21,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ForgotPasswordFragment : Fragment() {
+    private val binding : FragmentForgotPasswordBinding by lazy {
+        FragmentForgotPasswordBinding.inflate(layoutInflater)
+    }
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -33,8 +40,19 @@ class ForgotPasswordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
+
+        val view = binding.root
+        binding.send.setOnClickListener{
+            val email : String = binding.email.text.toString()
+
+            Firebase.auth.sendPasswordResetEmail(email).addOnCompleteListener{
+                task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(activity, "Email sent", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        return view
     }
 
     companion object {
