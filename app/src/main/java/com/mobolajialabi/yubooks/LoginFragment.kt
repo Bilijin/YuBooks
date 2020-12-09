@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.mobolajialabi.yubooks.databinding.ActivityMainBinding
 import com.mobolajialabi.yubooks.databinding.FragmentLoginBinding
 
@@ -27,6 +29,8 @@ class LoginFragment : Fragment() {
     private val binding : FragmentLoginBinding by lazy{
         FragmentLoginBinding.inflate(layoutInflater)
     }
+
+    lateinit var auth : FirebaseAuth
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -46,6 +50,8 @@ class LoginFragment : Fragment() {
         val view : View = binding.root
 
         Navigation.findNavController(context as Activity, R.id.fragment)
+
+        auth = FirebaseAuth.getInstance()
         binding.signUp.setOnClickListener{
             view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
@@ -53,8 +59,34 @@ class LoginFragment : Fragment() {
         binding.forgotPassword.setOnClickListener {
             view.findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }
+
+        binding.login.setOnClickListener {
+            val email = binding.email.text.toString()
+            val password = binding.password.text.toString()
+
+            if (email.isEmpty() || !email.contains('@')) {
+                Toast.makeText(activity, "Please enter a valid email", Toast.LENGTH_SHORT).show()
+            } else if (password.isEmpty() || password.length < 6) {
+                Toast.makeText(activity, "Enter a password with at least 6 characters", Toast.LENGTH_SHORT).show()
+            } else {
+                handleSignIn(email, password)
+            }
+        }
         // Inflate the layout for this fragment
         return view
+    }
+
+    private fun handleSignIn(email : String, password : String) {
+        auth.signInWithEmailAndPassword(email, password).
+                addOnCompleteListener {
+                    task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(activity, "Sign in successful", Toast.LENGTH_SHORT).show()
+                        //switch to home fragment
+                    } else {
+                        Toast.makeText(activity, "Sign in failed. Please try again", Toast.LENGTH_SHORT).show()
+                    }
+                }
     }
 
     companion object {
@@ -76,4 +108,5 @@ class LoginFragment : Fragment() {
                 }
             }
     }
+
 }
