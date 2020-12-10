@@ -1,4 +1,4 @@
-package com.mobolajialabi.yubooks
+package com.mobolajialabi.yubooks.auth.ui
 
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -11,27 +11,26 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.mobolajialabi.yubooks.R
 import com.mobolajialabi.yubooks.databinding.FragmentRegisterBinding
 
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-private const val RC_SIGN_IN : Int = 1
-
 class RegisterFragment : Fragment() {
+    private val RC_SIGN_IN = 1
     private val binding : FragmentRegisterBinding by lazy{
         FragmentRegisterBinding.inflate(layoutInflater)
     }
-    private lateinit var auth: FirebaseAuth
+    private val auth: FirebaseAuth by lazy{
+        Firebase.auth
+    }
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
@@ -57,7 +56,6 @@ class RegisterFragment : Fragment() {
         }
 
         //firebase sign up setup
-        auth = FirebaseAuth.getInstance()
         binding.register.setOnClickListener{
             val username = binding.username.text.toString()
             val email = binding.email.text.toString()
@@ -102,7 +100,6 @@ class RegisterFragment : Fragment() {
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
-                // ...
             }
         }
     }
@@ -114,17 +111,14 @@ class RegisterFragment : Fragment() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
+//                    val user = auth.currentUser
 //                    updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    // ...
                     view?.let { Snackbar.make(it, "Authentication Failed.", Snackbar.LENGTH_SHORT).show() }
 //                    updateUI(null)
                 }
-
-                // ...
             }
     }
 }
