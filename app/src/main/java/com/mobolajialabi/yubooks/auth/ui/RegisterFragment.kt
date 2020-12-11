@@ -41,7 +41,7 @@ class RegisterFragment : Fragment() {
         binding.signIn.setOnClickListener{
             view.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
-        // Google sign upp setup
+        // Google sign up setup
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
