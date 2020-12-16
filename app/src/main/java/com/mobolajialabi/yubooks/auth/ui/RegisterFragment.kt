@@ -3,6 +3,7 @@ package com.mobolajialabi.yubooks.auth.ui
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.mobolajialabi.yubooks.DatabaseHelper
 import com.mobolajialabi.yubooks.R
 import com.mobolajialabi.yubooks.databinding.FragmentRegisterBinding
 
@@ -59,7 +61,8 @@ class RegisterFragment : Fragment() {
         binding.register.setOnClickListener{
             val username = binding.username.text.toString()
             val email = binding.email.text.toString()
-            val password = binding.username.text.toString()
+            val password = binding.password.text.toString()
+            val phone = binding.phoneNo.text.toString()
 
             if (username.length < 2) {
                 Toast.makeText(activity, "Please enter a username longer than two characters", Toast.LENGTH_SHORT).show()
@@ -71,9 +74,12 @@ class RegisterFragment : Fragment() {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
+//                        Log.d(TAG, "createUserWithEmail:success")
                         Toast.makeText(context, "Account successfully created", Toast.LENGTH_SHORT).show()
-
+                        val dbHelper = DatabaseHelper()
+                        auth.currentUser?.uid?.let { it1 ->
+                            dbHelper.createUser(it1, email, username, phone)
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
