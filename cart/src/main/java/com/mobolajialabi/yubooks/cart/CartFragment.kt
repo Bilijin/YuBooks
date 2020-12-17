@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobolajialabi.yubooks.cart.databinding.FragmentCartBinding
 
 
@@ -27,7 +25,6 @@ class CartFragment : Fragment() {
         books = DatabaseHelper().retrieveBooks()
 
         val recyclerViewAdapter = CartRecyclerViewAdapter(books)
-        recyclerView.layoutManager = GridLayoutManager(activity,2, LinearLayoutManager.VERTICAL,false)
         recyclerView.adapter = recyclerViewAdapter
         return binding.root
     }

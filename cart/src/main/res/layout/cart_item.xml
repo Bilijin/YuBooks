@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="180dp"
-    android:layout_height="180dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_constraintCircleRadius="15dp"
@@ -12,17 +12,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="150dp"
             android:contentDescription="@string/image_book"
             android:layout_gravity="top"
             android:src="@drawable/book"
-            android:scaleType="fitXY"/>
+            android:scaleType="centerCrop"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:rating="3"
             android:progressTint="@color/orange"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/book_name"
             android:layout_marginLeft="8dp"/>
 
         <TextView
@@ -59,7 +59,7 @@
             android:textColor="@color/orange"
             tools:text="$322.00"
             android:textSize="13sp"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/book_name"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="8dp"/>
     </RelativeLayout>

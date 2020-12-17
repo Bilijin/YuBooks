@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class DatabaseHelper {
 
@@ -14,10 +15,10 @@ class DatabaseHelper {
         val user = User( id, email, userName, phoneNo)
 
 // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+        db.collection("users").document(userName.decapitalize(Locale.ROOT))
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(TAG, "DocumentSnapshot added with ID: ${userName.decapitalize(Locale.ROOT)}")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)

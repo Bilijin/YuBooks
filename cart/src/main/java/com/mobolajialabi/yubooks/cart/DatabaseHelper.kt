@@ -27,20 +27,20 @@ class DatabaseHelper {
         return books
     }
 
-    fun retrieveCart() : ArrayList<Book> {
-        val books = ArrayList<Book>()
-        db.collection("users").document()
-//            .get()
-//            .addOnSuccessListener { result ->
-//                for (document in result) {
-//                    books.add(Book(document.getString("name").toString(),
-//                        document.getLong("price")!!.toInt(),
-//                        document.getLong("rating")!!.toInt()))
-//                }
-//
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error getting documents.", exception)
-//            }
-    }
+//    fun retrieveCart() : ArrayList<Book> {
+//        val books = ArrayList<Book>()
+//        db.collection("users").document()
+////            .get()
+////            .addOnSuccessListener { result ->
+////                for (document in result) {
+////                    books.add(Book(document.getString("name").toString(),
+////                        document.getLong("price")!!.toInt(),
+////                        document.getLong("rating")!!.toInt()))
+////                }
+////
+////            }
+////            .addOnFailureListener { exception ->
+////                Log.w(TAG, "Error getting documents.", exception)
+////            }
+//    }
 }

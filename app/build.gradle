@@ -55,4 +55,6 @@ dependencies {
     //google login
     implementation deps.googleAuth
 
+    implementation project(":cart")
+
 }

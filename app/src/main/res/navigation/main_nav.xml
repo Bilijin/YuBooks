@@ -31,4 +31,8 @@
         android:name="com.mobolajialabi.yubooks.auth.ui.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.mobolajialabi.yubooks.cart.CartFragment"
+        android:label="CartFragment" />
 </navigation>
