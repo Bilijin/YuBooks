@@ -50,8 +50,12 @@ dependencies {
     implementation platform(deps.firebase)
     implementation deps.firebaseAnalytics
     implementation deps.firebaseAuth
+    implementation deps.firestore
 
     //google login
     implementation deps.googleAuth
 
+    implementation project(":cart")
+    implementation project(":home")
+    implementation project(":profile")
 }

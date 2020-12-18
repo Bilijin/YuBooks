@@ -22,4 +22,9 @@
     <string name="forget_password_hint_text">Please enter the email associated with your account</string>
     <string name="send">Send</string>
     <string name="forgot_your_password">Forgot Your Password?</string>
+    <string name="phone">Phone Number</string>
+
+    <string name="cart">Cart</string>
+    <string name="books">Books</string>
+    <string name="account">Account</string>
 </resources>

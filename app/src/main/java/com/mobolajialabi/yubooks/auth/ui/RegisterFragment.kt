@@ -3,6 +3,7 @@ package com.mobolajialabi.yubooks.auth.ui
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +12,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.mobolajialabi.yubooks.DatabaseHelper
 import com.mobolajialabi.yubooks.R
 import com.mobolajialabi.yubooks.databinding.FragmentRegisterBinding
 
@@ -35,7 +35,6 @@ class RegisterFragment : Fragment() {
     }
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,7 +43,7 @@ class RegisterFragment : Fragment() {
         binding.signIn.setOnClickListener{
             view.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
-        // Google sign upp setup
+        // Google sign up setup
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -62,7 +61,8 @@ class RegisterFragment : Fragment() {
         binding.register.setOnClickListener{
             val username = binding.username.text.toString()
             val email = binding.email.text.toString()
-            val password = binding.username.text.toString()
+            val password = binding.password.text.toString()
+            val phone = binding.phoneNo.text.toString()
 
             if (username.length < 2) {
                 Toast.makeText(activity, "Please enter a username longer than two characters", Toast.LENGTH_SHORT).show()
@@ -74,9 +74,12 @@ class RegisterFragment : Fragment() {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
+//                        Log.d(TAG, "createUserWithEmail:success")
                         Toast.makeText(context, "Account successfully created", Toast.LENGTH_SHORT).show()
-
+                        val dbHelper = DatabaseHelper()
+                        auth.currentUser?.uid?.let { it1 ->
+                            dbHelper.createUser(it1, email, username, phone)
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -103,7 +106,6 @@ class RegisterFragment : Fragment() {
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
-                // ...
             }
         }
     }
@@ -115,34 +117,14 @@ class RegisterFragment : Fragment() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
+//                    val user = auth.currentUser
 //                    updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    // ...
                     view?.let { Snackbar.make(it, "Authentication Failed.", Snackbar.LENGTH_SHORT).show() }
 //                    updateUI(null)
                 }
-
-                // ...
             }
-    }
-
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        try {
-            val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
-
-            val idToken = account!!.idToken
-
-
-
-            Toast.makeText(context, "Google sign in successful" + account.email, Toast.LENGTH_SHORT).show()
-        } catch (e: ApiException) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
-//            updateUI(null)
-        }
     }
 }

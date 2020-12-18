@@ -1,14 +1,13 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'com.google.gms.google-services'
 }
 
 android {
     compileSdkVersion versions.compileSdk
+    viewBinding.enabled = true
 
     defaultConfig {
-//        applicationId "com.mobolajialabi.yubooks"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode 1
@@ -45,6 +44,7 @@ dependencies {
     implementation deps.materialDesign
     //constraintLayout
     implementation deps.androidx.constraintlayout
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     //testing
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -52,4 +52,5 @@ dependencies {
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation deps.firebaseAuth
 }
