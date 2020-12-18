@@ -53,4 +53,8 @@
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.mobolajialabi.yubooks.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

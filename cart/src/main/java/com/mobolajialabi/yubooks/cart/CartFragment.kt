@@ -1,6 +1,7 @@
 package com.mobolajialabi.yubooks.cart
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,21 +17,24 @@ class CartFragment : Fragment() {
         FragmentCartBinding.inflate(layoutInflater)
     }
 
-    private lateinit var books : ArrayList<Book>
+    private var books = ArrayList<Book>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val recyclerView = binding.recyclerView
+        val recyclerViewAdapter = CartRecyclerViewAdapter(books)
 
         DatabaseHelper().retrieveBooks(object : MyCallback{
             override fun onCallback(value: List<Book>) {
                 books = value as ArrayList<Book>
+
+                recyclerViewAdapter.resetData(value)
             }
         })
 
-        val recyclerViewAdapter = CartRecyclerViewAdapter(books)
+
         recyclerView.layoutManager = GridLayoutManager(activity,2, LinearLayoutManager.VERTICAL,false)
         recyclerView.adapter = recyclerViewAdapter
         return binding.root

@@ -30,6 +30,11 @@ class HomeRecyclerViewAdapter(items : ArrayList<Book>) : RecyclerView.Adapter<Ho
         return itemsList.size
     }
 
+    fun resetData(realBooks : ArrayList<Book>) {
+        itemsList = realBooks
+        notifyDataSetChanged()
+    }
+
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private val view = itemView

@@ -30,6 +30,11 @@ class CartRecyclerViewAdapter(items : ArrayList<Book>) : RecyclerView.Adapter<Ca
         return itemsList.size
     }
 
+    fun resetData(realBooks : ArrayList<Book>) {
+        itemsList = realBooks
+        notifyDataSetChanged()
+    }
+
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private val view = itemView

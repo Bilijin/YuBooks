@@ -14,7 +14,7 @@ class HomeFragment : Fragment() {
         HomeFragmentBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<HomeViewModel>()
-    lateinit var books : ArrayList<Book>
+    private var books = ArrayList<Book>()
 
 
     override fun onCreateView(
@@ -23,13 +23,14 @@ class HomeFragment : Fragment() {
     ): View? {
         val recyclerView = binding.recyclerView
 
+        val recyclerViewAdapter = HomeRecyclerViewAdapter(books)
 
         DatabaseHelper().retrieveBooks(object : MyCallback{
             override fun onCallback(value: ArrayList<Book>) {
+                recyclerViewAdapter.resetData(value)
             }
         })
 
-        val recyclerViewAdapter = HomeRecyclerViewAdapter(books)
         recyclerView.adapter = recyclerViewAdapter
         return binding.root
     }
