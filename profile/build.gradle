@@ -5,6 +5,7 @@ plugins {
 
 android {
     compileSdkVersion versions.compileSdk
+    viewBinding.enabled = true
 
     defaultConfig {
         minSdkVersion versions.minSdk
@@ -51,4 +52,5 @@ dependencies {
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation deps.firebaseAuth
 }
