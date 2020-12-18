@@ -8,7 +8,7 @@ import com.google.firebase.ktx.Firebase
 class DatabaseHelper {
 
     private val db = Firebase.firestore
-    fun retrieveBooks() : ArrayList<Book> {
+    fun retrieveBooks(myCallback : MyCallback){
         val books = ArrayList<Book>()
         db.collection("books")
             .get()
@@ -18,13 +18,12 @@ class DatabaseHelper {
                         document.getLong("price")!!.toInt(),
                     document.getLong("rating")!!.toInt()))
                 }
+                myCallback.onCallback(books)
 
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
-
-        return books
     }
 
 //    fun retrieveCart() : ArrayList<Book> {

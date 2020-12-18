@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mobolajialabi.yubooks.cart.CartFragment
@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         Navigation.findNavController(this, R.id.fragment)
 
-        navHostFragment = (NavHostFragment)getSuppo
+        val navController = findNavController(R.id.fragment)
+        bottom_nav.setupWithNavController(navController)
 
 //        bottom_nav.setOnNavigationItemSelectedListener {
 //            when(it.itemId) {

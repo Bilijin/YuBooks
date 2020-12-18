@@ -24,7 +24,11 @@ class CartFragment : Fragment() {
     ): View? {
         val recyclerView = binding.recyclerView
 
-        books = DatabaseHelper().retrieveBooks()
+        DatabaseHelper().retrieveBooks(object : MyCallback{
+            override fun onCallback(value: List<Book>) {
+                books = value as ArrayList<Book>
+            }
+        })
 
         val recyclerViewAdapter = CartRecyclerViewAdapter(books)
         recyclerView.layoutManager = GridLayoutManager(activity,2, LinearLayoutManager.VERTICAL,false)
