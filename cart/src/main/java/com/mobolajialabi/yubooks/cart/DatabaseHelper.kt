@@ -27,9 +27,9 @@ class DatabaseHelper {
         return books
     }
 
-    fun retrieveCart() : ArrayList<Book> {
-        val books = ArrayList<Book>()
-        db.collection("users").document()
+//    fun retrieveCart() : ArrayList<Book> {
+//        val books = ArrayList<Book>()
+//        db.collection("users").document()
 //            .get()
 //            .addOnSuccessListener { result ->
 //                for (document in result) {
@@ -42,5 +42,5 @@ class DatabaseHelper {
 //            .addOnFailureListener { exception ->
 //                Log.w(TAG, "Error getting documents.", exception)
 //            }
-    }
+//    }
 }

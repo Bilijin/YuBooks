@@ -89,6 +89,7 @@ class LoginFragment : Fragment() {
             if (task.isSuccessful) {
                 Toast.makeText(activity, "Sign in successful", Toast.LENGTH_SHORT).show()
                 //switch to home fragment
+                requireView().findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             } else {
                 Toast.makeText(activity, "Sign in failed. Please try again ${task.exception}", Toast.LENGTH_SHORT).show()
             }
@@ -122,6 +123,7 @@ class LoginFragment : Fragment() {
                     Log.d(ContentValues.TAG, "signInWithCredential:success")
 //                    val user = auth.currentUser
 //                    updateUI(user)
+                    requireView().findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(ContentValues.TAG, "signInWithCredential:failure", task.exception)

@@ -8,6 +8,7 @@ android {
     viewBinding.enabled = true
 
     defaultConfig {
+
 //        applicationId "com.mobolajialabi.yubooks"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
@@ -49,8 +50,8 @@ dependencies {
     implementation deps.materialDesign
 
     //lifecycle
-    implementation deps.androidx.livedataExtension
-    implementation deps.androidx.livedata
+//    implementation deps.androidx.livedataExtension
+//    implementation deps.androidx.livedata
     implementation deps.androidx.viewmodel
 
     //constraintLayout
@@ -58,6 +59,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //testing
+    //tt
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
