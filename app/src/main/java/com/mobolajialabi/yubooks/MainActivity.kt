@@ -1,19 +1,14 @@
 package com.mobolajialabi.yubooks
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.mobolajialabi.yubooks.cart.CartFragment
 import com.mobolajialabi.yubooks.databinding.ActivityMainBinding
-import com.mobolajialabi.yubooks.home.HomeFragment
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener{
     private val binding : ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -21,26 +16,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.bottomNav.background = null
+        binding.bottomNav.menu.getItem(2).isEnabled = false
         Navigation.findNavController(this, R.id.fragment)
 
         val navController = findNavController(R.id.fragment)
-        bottom_nav.setupWithNavController(navController)
+        binding.bottomNav.setupWithNavController(navController)
 
-//        bottom_nav.setOnNavigationItemSelectedListener {
-//            when(it.itemId) {
-//                R.id.cart -> loadFragment(CartFragment())
-//                R.id.account -> loadFragment(HomeFragment())
-//
-//            }
-//
-//            true
-//        }
+        binding.homeFragment
+
     }
 
-    fun loadFragment(fragment : Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment,fragment)
-            .addToBackStack(null)
-            .commit()
+    override fun onClick(v: View?) {
+        when(v){
+            binding.homeFragment ->
+                Navigation.findNavController(binding.bottomNav).navigate(R.id.homeFragment)
+        }
     }
+
 }
