@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="180dp"
-    android:layout_height="180dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_constraintCircleRadius="15dp"
@@ -10,14 +10,17 @@
     android:background="#fff"
     android:layout_margin="8dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp">
 
         <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/image"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="120dp"
             android:contentDescription="@string/image_book"
             android:layout_gravity="top"
@@ -31,15 +34,19 @@
             android:layout_alignParentTop="true"
             android:layout_margin="8dp"
             android:contentDescription="@string/add_to_cart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_baseline_shopping_cart_24" />
 
         <TextView
+            app:layout_constraintTop_toBottomOf="@id/image"
             android:id="@+id/book_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             tools:text="Mathematics Starters"
             android:layout_below="@id/image"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp"/>
 
         <androidx.appcompat.widget.AppCompatRatingBar
@@ -50,7 +57,9 @@
             android:rating="3"
             android:progressTint="@color/orange"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="8dp"/>
+            android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toStartOf="@id/book_name"
+            app:layout_constraintTop_toBottomOf="@id/book_name"/>
 
         <TextView
             android:id="@+id/price"
@@ -61,7 +70,9 @@
             android:textSize="13sp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="8dp"/>
-    </RelativeLayout>
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rating"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
