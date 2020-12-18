@@ -5,14 +5,14 @@
     android:layout_height="180dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:layout_constraintCircleRadius="15dp"
+    app:layout_constraintCircleRadius="16dp"
     app:cardCornerRadius="15dp"
     android:background="#fff"
     android:layout_margin="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp">
 
         <ImageView
