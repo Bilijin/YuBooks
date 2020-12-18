@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.mobolajialabi.yubooks.databinding.ActivityMainBinding
+import com.mobolajialabi.yubooks.util.Helpers.hide
+import com.mobolajialabi.yubooks.util.Helpers.reveal
 
 class MainActivity : AppCompatActivity(), View.OnClickListener{
     private val binding : ActivityMainBinding by lazy{
@@ -22,6 +24,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
 
         val navController = findNavController(R.id.fragment)
         binding.bottomNav.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id){
+                R.id.registerFragment,
+                R.id.loginFragment,
+                R.id.forgotPasswordFragment -> {
+                    binding.bottomAppBar.hide()
+                    binding.homeFragment.hide()
+                }
+
+                else -> {
+                    binding.bottomAppBar.reveal()
+                    binding.homeFragment.reveal()
+                }
+            }
+        }
 
         binding.homeFragment
 
