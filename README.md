@@ -12,3 +12,5 @@ It implements
 </ul>
 
 Checkout the dev branch for the latest code version
+
+You can find the apk <a href="https://github.com/Bilijin/YuBooks/releases">here</a>, under assets
