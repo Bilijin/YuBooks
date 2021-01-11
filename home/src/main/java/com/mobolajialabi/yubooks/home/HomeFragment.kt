@@ -25,11 +25,13 @@ class HomeFragment : Fragment() {
 
         val recyclerViewAdapter = HomeRecyclerViewAdapter(books)
 
-        DatabaseHelper().retrieveBooks(object : MyCallback{
-            override fun onCallback(value: ArrayList<Book>) {
-                recyclerViewAdapter.resetData(value)
-            }
-        })
+        recyclerViewAdapter.resetData(viewModel.setupData())
+
+//        DatabaseHelper().retrieveBooks(object : MyCallback{
+//            override fun onCallback(value: ArrayList<Book>) {
+//                recyclerViewAdapter.resetData(value)
+//            }
+//        })
 
         recyclerView.adapter = recyclerViewAdapter
         return binding.root
