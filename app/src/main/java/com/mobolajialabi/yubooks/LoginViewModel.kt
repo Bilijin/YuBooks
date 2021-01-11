@@ -21,7 +21,7 @@ class LoginViewModel(var app : Application, val listen : SignInClient) : Android
     val reed : LiveData<Boolean> = _reed
 
     // Build a GoogleSignInClient with the options specified by gso.
-    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+    private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken(app.getString(R.string.default_web_client_id))
         .requestEmail()
         .build()
