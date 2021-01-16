@@ -19,6 +19,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.mobolajialabi.yubooks.LoginViewModel
 import com.mobolajialabi.yubooks.LoginViewModelFactory
@@ -38,8 +39,6 @@ class LoginFragment : Fragment() , SignInClient{
     private val viewModel by viewModels<LoginViewModel> {
         LoginViewModelFactory(requireActivity().application, this)
     }
-
-    private val call = registerF
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,18 +68,21 @@ class LoginFragment : Fragment() , SignInClient{
             }
         }
 
-//        // Google sign upp setup
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.default_web_client_id))
-//            .requestEmail()
-//            .build()
-//
-//        // Build a GoogleSignInClient with the options specified by gso.
-//        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        // Google sign upp setup
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         binding.signInGoogle.setOnClickListener {
-//            val signInIntent = mGoogleSignInClient.signInIntent
-//            startActivityForResult(signInIntent, RC_SIGN_IN)
+            val signInIntent = mGoogleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+
+//            viewModel.handleGoogleSign()
         }
         // Inflate the layout for this fragment
         return view

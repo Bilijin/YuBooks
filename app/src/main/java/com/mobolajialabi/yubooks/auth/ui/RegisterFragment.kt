@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -20,12 +22,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.mobolajialabi.yubooks.DatabaseHelper
-import com.mobolajialabi.yubooks.R
+import com.mobolajialabi.yubooks.*
 import com.mobolajialabi.yubooks.databinding.FragmentRegisterBinding
 
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(), SignInClient {
     private val RC_SIGN_IN = 1
     private val binding : FragmentRegisterBinding by lazy{
         FragmentRegisterBinding.inflate(layoutInflater)
@@ -34,6 +35,10 @@ class RegisterFragment : Fragment() {
         Firebase.auth
     }
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+    private val viewModel by viewModels<RegisterViewModel> {
+        RegisterViewModelFactory(requireActivity().application, this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,23 +76,14 @@ class RegisterFragment : Fragment() {
             } else if (password.length < 6) {
                 Toast.makeText(activity, "Please enter a password with at least six characters", Toast.LENGTH_SHORT).show()
             } else {
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-//                        Log.d(TAG, "createUserWithEmail:success")
-                        Toast.makeText(context, "Account successfully created", Toast.LENGTH_SHORT).show()
-                        val dbHelper = DatabaseHelper()
-                        auth.currentUser?.uid?.let { it1 ->
-                            dbHelper.createUser(it1, email, username, phone)
-                        }
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(context, "Authentication failed. ${task.exception}",
-                            Toast.LENGTH_SHORT).show()
-                    }
-                }
+                viewModel.register(email, password, username, phone)
+                goHome()
+
             }
+        }
+
+        binding.signUpGoogle.setOnClickListener {
+            viewModel.handleGoogleSign()
         }
         return view
     }
@@ -102,7 +98,7 @@ class RegisterFragment : Fragment() {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
+                viewModel.firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
@@ -110,21 +106,37 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-//                    val user = auth.currentUser
-//                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    view?.let { Snackbar.make(it, "Authentication Failed.", Snackbar.LENGTH_SHORT).show() }
-//                    updateUI(null)
-                }
+//    private fun firebaseAuthWithGoogle(idToken: String) {
+//        val credential = GoogleAuthProvider.getCredential(idToken, null)
+//        auth.signInWithCredential(credential)
+//            .addOnCompleteListener(requireActivity()) { task ->
+//                if (task.isSuccessful) {
+//                    // Sign in success, update UI with the signed-in user's information
+//                    Log.d(TAG, "signInWithCredential:success")
+////                    val user = auth.currentUser
+////                    updateUI(user)
+//                } else {
+//                    // If sign in fails, display a message to the user.
+//                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+//                    view?.let { Snackbar.make(it, "Authentication Failed.", Snackbar.LENGTH_SHORT).show() }
+////                    updateUI(null)
+//                }
+//            }
+//    }
+
+    override fun signInStarted(client: GoogleSignInClient) {
+
+    }
+
+    private fun goHome() {
+        viewModel.bee.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(context, "Account successfully created", Toast.LENGTH_SHORT).show()
+                requireView().findNavController()
+                    .navigate(R.id.action_registerFragment_to_homeFragment)
+            } else {
+                Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
             }
+        }
     }
 }
