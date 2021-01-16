@@ -3,7 +3,6 @@ package com.mobolajialabi.yubooks.auth.ui
 
 
 import android.app.Activity
-import android.app.Application
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
@@ -40,6 +39,10 @@ class LoginFragment : Fragment() , SignInClient{
         LoginViewModelFactory(requireActivity().application, this)
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f1c572f4b63ad8326035b07fd18e62b1dabc8eff
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,21 +71,9 @@ class LoginFragment : Fragment() , SignInClient{
             }
         }
 
-
         // Google sign upp setup
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-
         binding.signInGoogle.setOnClickListener {
-            val signInIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
-
-//            viewModel.handleGoogleSign()
+            viewModel.handleGoogleSign()
         }
         // Inflate the layout for this fragment
         return view
@@ -91,6 +82,8 @@ class LoginFragment : Fragment() , SignInClient{
 
     private fun navigateHome() {
         viewModel.boo.observe(viewLifecycleOwner) {
+
+
             if (it) {
                 requireView().findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 Toast.makeText(activity, "Sign in successful", Toast.LENGTH_SHORT).show()
@@ -119,7 +112,9 @@ class LoginFragment : Fragment() , SignInClient{
     }
 
     override fun signInStarted(client: GoogleSignInClient) {
-//        startActivityForResult.launch
+        startActivityForResult(client.signInIntent, RC_SIGN_IN)
     }
+
+    //I want to rebuild so we can clear all the errors
 
 }
