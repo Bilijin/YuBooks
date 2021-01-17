@@ -1,4 +1,4 @@
-package com.mobolajialabi.yubooks
+package com.mobolajialabi.yubooks.auth.ui.activity
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.mobolajialabi.yubooks.R
 import com.mobolajialabi.yubooks.databinding.ActivityMainBinding
 import com.mobolajialabi.yubooks.util.Helpers.hide
 import com.mobolajialabi.yubooks.util.Helpers.reveal
@@ -20,7 +21,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         setContentView(binding.root)
         binding.bottomNav.background = null
         binding.bottomNav.menu.getItem(1).isEnabled = false
-        Navigation.findNavController(this, R.id.fragment)
+        Navigation.findNavController(this,
+            R.id.fragment
+        )
 
         val navController = findNavController(R.id.fragment)
         binding.bottomNav.setupWithNavController(navController)
@@ -40,8 +43,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
                 }
             }
         }
-
-        binding.homeFragment
 
     }
 

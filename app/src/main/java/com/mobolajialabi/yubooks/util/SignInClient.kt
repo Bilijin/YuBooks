@@ -1,4 +1,4 @@
-package com.mobolajialabi.yubooks
+package com.mobolajialabi.yubooks.util
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 

@@ -1,29 +1,28 @@
-package com.mobolajialabi.yubooks
+package com.mobolajialabi.yubooks.auth.ui.viewmodels
 
 import android.app.Application
-import android.content.ContentValues
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.mobolajialabi.yubooks.DatabaseHelper
+import com.mobolajialabi.yubooks.R
+import com.mobolajialabi.yubooks.util.SignInClient
 
 class RegisterViewModel(var app : Application, val listen : SignInClient) : AndroidViewModel(app) {
 
     private val auth = Firebase.auth
-    private val _bee = MutableLiveData<Boolean>(false)
-    val bee : LiveData<Boolean> = _bee
+    private val _isRegisterSuccessful = MutableLiveData<Boolean>(false)
+    val isRegisterSuccessful : LiveData<Boolean> = _isRegisterSuccessful
 
     private val _bool = MutableLiveData<Boolean>(false)
     val bool : LiveData<Boolean> = _bool
 
     // Build a GoogleSignInClient with the options specified by gso.
-    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+    private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken(app.getString(R.string.default_web_client_id))
         .requestEmail()
         .build()
@@ -31,16 +30,8 @@ class RegisterViewModel(var app : Application, val listen : SignInClient) : Andr
     private val mGoogleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(app, gso)
 
     fun register(email : String, password : String, username : String, phone : String) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
-            if (task.isSuccessful) {
-                val dbHelper = DatabaseHelper()
-                auth.currentUser?.uid?.let { it1 ->
-                    dbHelper.createUser(it1, email, username, phone)
-                }
-            }
+               DatabaseHelper.createUser(email,username,phone,password)
 
-            _bee.value = task.isSuccessful
-        }
     }
 
     fun firebaseAuthWithGoogle(idToken: String) {
@@ -64,7 +55,10 @@ class RegisterViewModelFactory(private val app : Application, private val listen
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
 
-            return LoginViewModel(app, listener) as T
+            return LoginViewModel(
+                app,
+                listener
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

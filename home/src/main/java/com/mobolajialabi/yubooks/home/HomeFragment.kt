@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mobolajialabi.yubooks.home.databinding.HomeFragmentBinding
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeRecyclerViewAdapter.BooksClickListener {
 
-    val binding : HomeFragmentBinding by lazy {
+    private val binding : HomeFragmentBinding by lazy {
         HomeFragmentBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<HomeViewModel>()
@@ -23,9 +23,8 @@ class HomeFragment : Fragment() {
     ): View? {
         val recyclerView = binding.recyclerView
 
-        val recyclerViewAdapter = HomeRecyclerViewAdapter(books)
-
-        recyclerViewAdapter.resetData(viewModel.setupData())
+        val recyclerViewAdapter = HomeRecyclerViewAdapter(this)
+        recyclerViewAdapter.submitList(books)
 
 //        DatabaseHelper().retrieveBooks(object : MyCallback{
 //            override fun onCallback(value: ArrayList<Book>) {
@@ -35,5 +34,9 @@ class HomeFragment : Fragment() {
 
         recyclerView.adapter = recyclerViewAdapter
         return binding.root
+    }
+
+    override fun onBookClicked(book: Book) {
+        TODO("Not yet implemented")
     }
 }
