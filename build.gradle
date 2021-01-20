@@ -42,7 +42,7 @@ ext.deps = [
         "androidx"  : [
                 "constraintlayout": "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}",
                 "fragment"        : "androidx.fragment:fragment-ktx:${versions.fragment}",
-                "livedata"        : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecyclex}",
+                "livedata"        : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecycle}",
                 "livedataExtension"  : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}",
                 "recyclerview"    : "androidx.recyclerview:recyclerview:${versions.recyclerview}",
                 "viewmodel"       : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}",
