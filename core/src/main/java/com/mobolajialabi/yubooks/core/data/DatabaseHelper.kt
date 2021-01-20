@@ -21,7 +21,7 @@ object DatabaseHelper {
     private val db = Firebase.firestore
     val auth = Firebase.auth
 
-    private val _googleSignInSuccessful = MutableLiveData<Boolean>(false)
+     private val _googleSignInSuccessful = MutableLiveData<Boolean>(false)
     val googleSignInSuccessful : LiveData<Boolean> = _googleSignInSuccessful
 
     private val _isSignInSuccessful = MutableLiveData<Boolean>(false)
@@ -55,7 +55,8 @@ object DatabaseHelper {
             .requestEmail()
             .build()
 
-         return GoogleSignIn.getClient(context,gso)
+         val signin = GoogleSignIn.getClient(context,gso)
+        return signin
     }
 
     fun firebaseAuthWithGoogle(idToken: String, view: View) {
@@ -63,6 +64,7 @@ object DatabaseHelper {
         auth.signInWithCredential(credential)
             .addOnCompleteListener{ task ->
                 if (task.isSuccessful) {
+                    showMessage("Welcome to YuBooks", view )
                     _googleSignInSuccessful.value = task.isSuccessful
                 }else{
                     task.exception?.localizedMessage?.let { showMessage(it, view) }
