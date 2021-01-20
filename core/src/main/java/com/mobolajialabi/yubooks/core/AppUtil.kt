@@ -1,4 +1,4 @@
-package com.mobolajialabi.yubooks.util
+package com.mobolajialabi.yubooks.core
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar

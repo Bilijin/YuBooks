@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -43,9 +45,23 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation deps.androidx.constraintlayout
+
 
     //firebase
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    //firebase
+    implementation platform(deps.firebase)
+    implementation deps.firebaseAnalytics
+    implementation deps.firebaseAuth
+    implementation deps.firestore
+
+    //google login
+    implementation deps.googleAuth
+
+    implementation deps.androidx.livedata
+    implementation deps.androidx.livedataExtension
+
+    // Logging
+    implementation deps.timber
 }

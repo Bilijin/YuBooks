@@ -5,25 +5,24 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper.forgotPassword
 import com.mobolajialabi.yubooks.R
-import com.mobolajialabi.yubooks.auth.ui.viewmodels.ForgetPasswordViewModel
 import com.mobolajialabi.yubooks.databinding.FragmentForgotPasswordBinding
+import com.mobolajialabi.yubooks.util.Helpers.showMessage
 
 class ForgotPasswordFragment : Fragment(), View.OnClickListener {
-    private val binding : FragmentForgotPasswordBinding by lazy {
+    private val binding: FragmentForgotPasswordBinding by lazy {
         FragmentForgotPasswordBinding.inflate(layoutInflater)
     }
-    private val viewModel:ForgetPasswordViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         setUpListeners()
         return binding.root
     }
@@ -33,23 +32,26 @@ class ForgotPasswordFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v){
+        when (v) {
             binding.send -> {
                 if (binding.email.text.toString().isNotEmpty() &&
-                    Patterns.EMAIL_ADDRESS.matcher(binding.email.text.toString()).matches() ) {
-                    viewModel.forgetPassword(binding.email.text.toString())
+                    Patterns.EMAIL_ADDRESS.matcher(binding.email.text.toString()).matches()
+                ) {
+                    forgotPassword(binding.email.text.toString(), binding.root)
                     setupObserver()
-                }else{
-                    Toast.makeText(requireContext(), "Please Input a valid Email", Toast.LENGTH_LONG).show()
+                } else {
+                    showMessage("Please Input a valid Email", binding.root)
                 }
             }
         }
     }
 
-    private fun setupObserver() = viewModel.sentSuccessfully.observe(viewLifecycleOwner){
-        if (it){
-            findNavController().navigate(R.id.login)
-        }
+    private fun setupObserver() {
+        DatabaseHelper.hasEmailBeenSent.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(R.id.login)
+            }
 
+        }
     }
 }

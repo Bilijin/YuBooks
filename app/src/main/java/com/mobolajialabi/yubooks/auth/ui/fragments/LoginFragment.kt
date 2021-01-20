@@ -2,31 +2,26 @@ package com.mobolajialabi.yubooks.auth.ui.fragments
 
 
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
-import com.mobolajialabi.yubooks.auth.ui.viewmodels.LoginViewModel
-import com.mobolajialabi.yubooks.auth.ui.viewmodels.LoginViewModelFactory
 import com.mobolajialabi.yubooks.R
-import com.mobolajialabi.yubooks.util.SignInClient
 import com.mobolajialabi.yubooks.databinding.FragmentLoginBinding
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper.firebaseAuthWithGoogle
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper.handleGoogleSignIn
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper.handleSignIn
 
 
-class LoginFragment : Fragment(), SignInClient, View.OnClickListener {
+class LoginFragment : Fragment(), View.OnClickListener {
 
     private val binding: FragmentLoginBinding by lazy {
         FragmentLoginBinding.inflate(layoutInflater)
@@ -34,17 +29,12 @@ class LoginFragment : Fragment(), SignInClient, View.OnClickListener {
 
     private val RC_SIGN_IN = 1
 
-    private val viewModel by viewModels<LoginViewModel> {
-        LoginViewModelFactory(
-            requireActivity().application,
-            this
-        )
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         setUpListeners()
         return binding.root
@@ -59,33 +49,24 @@ class LoginFragment : Fragment(), SignInClient, View.OnClickListener {
 
 
     private fun navigateHome() {
-        viewModel.apply {
+        DatabaseHelper.apply {
 
-        boo.observe(viewLifecycleOwner) {
-            if (it) {
-                requireView().findNavController()
-                    .navigate(R.id.action_loginFragment_to_homeFragment)
-                Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
-            }
-
-        }
-            errorMessage.observe(viewLifecycleOwner){
-                if (it.isNotEmpty()){
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-                }
-            }
-
-            googleSiginSuccessful.observe(viewLifecycleOwner){
+            isSignInSuccessful.observe(viewLifecycleOwner) {
                 if (it) {
-                    requireView().findNavController()
+                    findNavController()
                         .navigate(R.id.action_loginFragment_to_homeFragment)
-                    Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
                 }
 
             }
 
-        }
+            googleSignInSuccessful.observe(viewLifecycleOwner) {
+                if (it) {
+                    findNavController()
+                        .navigate(R.id.action_loginFragment_to_homeFragment)
+                }
 
+            }
+        }
 
     }
 
@@ -106,7 +87,7 @@ class LoginFragment : Fragment(), SignInClient, View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    viewModel.handleSignIn(email, password)
+                    handleSignIn(binding.root, email, password)
                     navigateHome()
                 }
             }
@@ -116,8 +97,8 @@ class LoginFragment : Fragment(), SignInClient, View.OnClickListener {
             binding.signUp -> findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
 
             binding.signInGoogle -> {
-                viewModel.handleGoogleSign()
-
+               val client =  handleGoogleSignIn(requireContext())
+                startActivityForResult(client.signInIntent, RC_SIGN_IN)
             }
         }
     }
@@ -132,17 +113,13 @@ class LoginFragment : Fragment(), SignInClient, View.OnClickListener {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
 //                Log.d(ContentValues.TAG, "firebaseAuthWithGoogle:" + account.id)
-                account.idToken?.let { viewModel.firebaseAuthWithGoogle(it) }
+                account.idToken?.let { firebaseAuthWithGoogle(it, binding.root) }
                 navigateHome()
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(ContentValues.TAG, "Google sign in failed", e)
+//                Timber.d("Google sign in failed %s", e.localizedMessage)
             }
         }
-    }
-
-    override fun signInStarted(client: GoogleSignInClient) {
-        startActivityForResult(client.signInIntent, RC_SIGN_IN)
     }
 
 }

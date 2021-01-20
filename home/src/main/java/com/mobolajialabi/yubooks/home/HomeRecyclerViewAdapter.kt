@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mobolajialabi.yubooks.core.data.Book
 import com.mobolajialabi.yubooks.home.databinding.CartItemBinding
 
 class HomeRecyclerViewAdapter(private val listener: BooksClickListener) : ListAdapter<Book, HomeRecyclerViewAdapter.MyViewHolder>(DataUtilClass()) {
@@ -50,7 +51,9 @@ class HomeRecyclerViewAdapter(private val listener: BooksClickListener) : ListAd
         }
     }
 
-    interface BooksClickListener {
-        fun onBookClicked(book: Book)
-    }
+
+}
+
+interface BooksClickListener {
+    fun onBookClicked(book: Book)
 }

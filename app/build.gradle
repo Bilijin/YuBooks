@@ -67,7 +67,13 @@ dependencies {
     implementation project(":cart")
     implementation project(":home")
     implementation project(":profile")
+    implementation project(":core")
 
     //viewmodel
     implementation deps.androidx.viewmodel
+    implementation deps.androidx.livedata
+    implementation deps.androidx.livedataExtension
+
+    // Logging
+    implementation deps.timber
 }
