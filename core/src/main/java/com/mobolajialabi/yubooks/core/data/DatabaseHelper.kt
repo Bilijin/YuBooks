@@ -120,6 +120,7 @@ object DatabaseHelper {
                     )
                 }
                _booksList.value = books
+                Timber.d( "booksList %s", _booksList.value)
 
             }
             .addOnFailureListener { exception ->

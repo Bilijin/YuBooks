@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mobolajialabi.yubooks.core.data.Book
 import com.mobolajialabi.yubooks.core.data.DatabaseHelper
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper.retrieveBooks
 import com.mobolajialabi.yubooks.home.databinding.HomeFragmentBinding
 
 class HomeFragment : Fragment(), BooksClickListener {
@@ -20,6 +21,7 @@ class HomeFragment : Fragment(), BooksClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        retrieveBooks()
         val recyclerView = binding.recyclerView
 
         val recyclerViewAdapter = HomeRecyclerViewAdapter(this)
