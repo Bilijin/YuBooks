@@ -6,32 +6,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.mobolajialabi.yubooks.core.data.Book
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper
+import com.mobolajialabi.yubooks.core.data.DatabaseHelper.retrieveBooks
 import com.mobolajialabi.yubooks.home.databinding.HomeFragmentBinding
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), BooksClickListener {
 
-    val binding : HomeFragmentBinding by lazy {
+    private val binding: HomeFragmentBinding by lazy {
         HomeFragmentBinding.inflate(layoutInflater)
     }
-    private val viewModel by viewModels<HomeViewModel>()
-    private var books = ArrayList<Book>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        retrieveBooks()
         val recyclerView = binding.recyclerView
 
-        val recyclerViewAdapter = HomeRecyclerViewAdapter(books)
-
-        DatabaseHelper().retrieveBooks(object : MyCallback{
-            override fun onCallback(value: ArrayList<Book>) {
-                recyclerViewAdapter.resetData(value)
+        val recyclerViewAdapter = HomeRecyclerViewAdapter(this)
+        DatabaseHelper.booksList.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()) {
+                recyclerViewAdapter.submitList(it)
+                recyclerView.adapter = recyclerViewAdapter
             }
-        })
+        }
 
-        recyclerView.adapter = recyclerViewAdapter
         return binding.root
     }
+
+    override fun onBookClicked(book: Book) {
+
+    }
+
 }
