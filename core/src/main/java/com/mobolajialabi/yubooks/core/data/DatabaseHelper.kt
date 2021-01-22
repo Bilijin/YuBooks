@@ -21,27 +21,27 @@ object DatabaseHelper {
     private val db = Firebase.firestore
     val auth = Firebase.auth
 
-     private val _googleSignInSuccessful = MutableLiveData<Boolean>(false)
-    val googleSignInSuccessful : LiveData<Boolean> = _googleSignInSuccessful
+    private val _googleSignInSuccessful = MutableLiveData<Boolean>(false)
+    val googleSignInSuccessful: LiveData<Boolean> = _googleSignInSuccessful
 
     private val _isSignInSuccessful = MutableLiveData<Boolean>(false)
-    val isSignInSuccessful : LiveData<Boolean> = _isSignInSuccessful
+    val isSignInSuccessful: LiveData<Boolean> = _isSignInSuccessful
 
     private val _isRegisterSuccessful = MutableLiveData<Boolean>(false)
-    val isRegisterSuccessful : LiveData<Boolean> = _isRegisterSuccessful
+    val isRegisterSuccessful: LiveData<Boolean> = _isRegisterSuccessful
 
     private val _hasEmailBeenSent = MutableLiveData<Boolean>(false)
-    val hasEmailBeenSent : LiveData<Boolean> = _hasEmailBeenSent
+    val hasEmailBeenSent: LiveData<Boolean> = _hasEmailBeenSent
 
     private val _booksList = MutableLiveData<List<Book>>()
-    val booksList : LiveData<List<Book>> = _booksList
+    val booksList: LiveData<List<Book>> = _booksList
 
     fun forgotPassword(email: String, view: View) {
         auth.sendPasswordResetEmail(email).addOnCompleteListener {
             if (it.isSuccessful) {
                 _hasEmailBeenSent.value = true
                 showMessage("Please Check Your Email for a reset link", view)
-            }else{
+            } else {
                 _hasEmailBeenSent.value = false
                 it.exception?.localizedMessage?.let { it1 -> showMessage(it1, view) }
             }
@@ -49,24 +49,24 @@ object DatabaseHelper {
 
     }
 
-    fun handleGoogleSignIn(context: Context) : GoogleSignInClient {
-         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+    fun handleGoogleSignIn(context: Context): GoogleSignInClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(context.getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
-         val signin = GoogleSignIn.getClient(context,gso)
+        val signin = GoogleSignIn.getClient(context, gso)
         return signin
     }
 
     fun firebaseAuthWithGoogle(idToken: String, view: View) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
-            .addOnCompleteListener{ task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    showMessage("Welcome to YuBooks", view )
+                    showMessage("Welcome to YuBooks", view)
                     _googleSignInSuccessful.value = task.isSuccessful
-                }else{
+                } else {
                     task.exception?.localizedMessage?.let { showMessage(it, view) }
                 }
             }
@@ -75,11 +75,11 @@ object DatabaseHelper {
     fun handleSignIn(view: View, email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-               _isSignInSuccessful.value = true
-                showMessage("Sign in Successful",view)
+                _isSignInSuccessful.value = true
+                showMessage("Sign in Successful", view)
             } else {
                 _isSignInSuccessful.value = false
-                task.exception?.localizedMessage?.let { showMessage(it,view) }
+                task.exception?.localizedMessage?.let { showMessage(it, view) }
             }
         }
 
@@ -87,47 +87,54 @@ object DatabaseHelper {
 
     fun createUser(view: View, email: String, userName: String, phoneNo: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful){
+            if (it.isSuccessful) {
                 val user = User(auth.uid!!, email, userName, phoneNo)
 
                 // Add a new document with a generated ID
                 db.collection("users")
                     .add(user)
                     .addOnCompleteListener { task ->
-                        if ( task.isSuccessful) {
+                        if (task.isSuccessful) {
                             _isRegisterSuccessful.value = true
-                           showMessage("Welcome to YuBooks", view )
-                        }else{
+                            showMessage("Welcome to YuBooks", view)
+                        } else {
                             _isRegisterSuccessful.value = false
-                            task.exception?.localizedMessage?.let { errorMessage -> showMessage(errorMessage, view ) }
+                            task.exception?.localizedMessage?.let { errorMessage ->
+                                showMessage(
+                                    errorMessage,
+                                    view
+                                )
+                            }
                         }
                     }
 
             }
-            }
         }
+    }
 
     fun retrieveBooks() {
         val books = ArrayList<Book>()
         db.collection("books")
             .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    books.add(
-                        Book(document.getString("name").toString(),
-                        document.getLong("price")!!.toString(),
-                        document.getLong("rating")!!.toInt())
-                    )
-                }
-               _booksList.value = books
-                Timber.d( "booksList %s", _booksList.value)
+            .addOnCompleteListener { task ->
 
-            }
-            .addOnFailureListener { exception ->
-                Timber.d(exception, "Error getting documents.")
+                if (task.isSuccessful) {
+
+                    for (document in task.result!!) {
+                        books.add(
+                            Book(
+                                document.getString("name").toString(),
+                                document.getLong("price")!!.toString(),
+                                document.getLong("rating")!!.toInt()
+                            )
+                        )
+                    }
+                    _booksList.value = books
+                    Timber.d("bo}oksList %s", _booksList.value)
+
+                } else {
+                    Timber.d(task.exception, "Error getting documents.")
+                }
             }
     }
-
-
-
 }
