@@ -14,3 +14,6 @@ It implements
 Checkout the dev branch for the latest code version
 
 You can find the apk <a href="https://github.com/Bilijin/YuBooks/releases">here</a>, under assets
+
+<image src="app/src/main/res/drawable/Screenshot_20210509_012553_com.mobolajialabi.yubooks.jpg">
+<image src="app/src/main/res/drawable/Screenshot_20210509_012558_com.mobolajialabi.yubooks.jpg">
