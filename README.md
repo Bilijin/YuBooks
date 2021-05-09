@@ -17,3 +17,4 @@ You can find the apk <a href="https://github.com/Bilijin/YuBooks/releases">here<
 
 <image src="app/src/main/res/drawable/Screenshot_20210509_012553_com.mobolajialabi.yubooks.jpg">
 <image src="app/src/main/res/drawable/Screenshot_20210509_012558_com.mobolajialabi.yubooks.jpg">
+<image src="app/src/main/res/drawable/Screenshot_20210509_013258_com.mobolajialabi.yubooks.jpg">
